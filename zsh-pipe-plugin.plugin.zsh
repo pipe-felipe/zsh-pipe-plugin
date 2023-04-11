@@ -1,4 +1,5 @@
 source "${PIPE_PLUGIN}/colors.zsh"
+source "${PIPE_PLUGIN}/docker.zsh"
 
 function install-zsh-plugin() {
     plugin_link=$1
@@ -10,3 +11,9 @@ function install-zsh-plugin() {
       echo -e "${RED}" 'This command works with two params {plugin_link} and {plugin_name}'"${RESET}"
     fi
 }
+
+# PATHS
+export PATH="$HOME"/.local/share/JetBrains/Toolbox/scripts:$PATH
+
+# ALIASES
+alias docker-cleanup="docker container prune -f && docker volumes prune"
