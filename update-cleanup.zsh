@@ -61,3 +61,41 @@ function update() {
         echo -e "${BOLD}DONE WITH UPDATE"
     fi
 }
+
+function _cleanup_homebrew() {
+    echo -e "${YELLOW}brew cleanup"
+    brew cleanup
+    printf "==================================================\n"
+
+    echo -e "${YELLOW}brew autoremove"
+    brew autoremove
+    printf "==================================================\n"
+}
+
+function _cleanup_flatpak() {
+    echo -e "${YELLOW}flatpak --unused"
+    flatpak uninstall --unused
+    printf "==================================================\n"
+}
+
+function clean() {
+    if _is_arch; then
+        echo -e "${BLUE}${BOLD}\nSYSTEM CLEANUP ${RESET}"
+        printf "\n"
+
+        echo -e "${GREEN}-Rsn pacman -Qtdq"
+        sudo pacman -Rns "$(pacman -Qtdq)"
+        printf "==================================================\n"
+
+        if  _is_installed brew; then
+            _cleanup_homebrew
+        fi
+
+        if  _is_installed flatpak; then
+            _cleanup_flatpak
+        fi
+
+        printf "==================================================\n"
+        echo -e "${BOLD}DONE WITH CLEANUP"
+    fi
+}
