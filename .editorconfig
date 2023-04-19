@@ -1,0 +1,16 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# Top-most EditorConfig file
+root = true
+
+# Set tab size to 2 spaces for zsh files
+[*.zsh]
+tab_width = 2
+indent_style = tab
+
+# Set tab size to 4 spaces for md files
+[*.md]
+tab_width = 4
+indent_style = tab
+
+# Other configurations go here
