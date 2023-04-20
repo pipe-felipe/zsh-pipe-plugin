@@ -1,19 +1,13 @@
 source "${PIPE_PLUGIN}/colors.zsh"
+
 source "${PIPE_PLUGIN}/docker.zsh"
+source "${PIPE_PLUGIN}/utils.zsh"
+source "${PIPE_PLUGIN}/update-cleanup.zsh"
 
-function install-zsh-plugin() {
-    plugin_link=$1
-    plugin_name=$2
+source "${PIPE_PLUGIN}/paths.zsh"
+source "${PIPE_PLUGIN}/aliases.zsh"
 
-    if ! [[ -z "$1" || -z "$2" ]]; then
-      git clone "$plugin_link" "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/plugins/"$plugin_name"
-    else
-      echo -e "${RED}" 'This command works with two params {plugin_link} and {plugin_name}'"${RESET}"
-    fi
-}
-
-# PATHS
-export PATH="$HOME"/.local/share/JetBrains/Toolbox/scripts:$PATH
-
-# ALIASES
-alias docker-cleanup="docker container prune -f && docker volumes prune"
+if [[ ! -v PIPE_PLUGIN ]]; then
+	echo -e "${RED} Put it on the top of .zshrc file"
+	echo -e "export PIPE_PLUGIN="$HOME/.oh-my-zsh/custom/plugins/zsh-pipe-plugin/${RESET}""
+fi
