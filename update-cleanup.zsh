@@ -1,6 +1,6 @@
-readonly ARCH=/etc/arch-release
-readonly FEDORA=/etc/fedora-release
-readonly UBUNTU=/etc/os-release
+readonly OS_ARCH=/etc/arch-release
+readonly OS_FEDORA=/etc/fedora-release
+readonly OS_UBUNTU=/etc/os-release
 
 # 0 = true | 1 = false
 
@@ -46,17 +46,17 @@ function _os_update() {
   echo -e "${BLUE}${BOLD}\nSYSTEM UPDATE ${RESET}"
   printf "\n"
 
-  if test -f "$FEDORA"; then
+  if test -f "$OS_FEDORA"; then
     echo -e "${GREEN}dnf upgrade"
     sudo dnf upgrade
   fi
 
-  if test -f "$ARCH"; then
+  if test -f "$OS_ARCH"; then
     echo -e "${GREEN}pacman -Syu"
     sudo pacman -Syu
   fi
 
-  if [[ -f "$UBUNTU" ]] && grep -qi "ubuntu" "$UBUNTU"; then
+  if [[ -f "$OS_UBUNTU" ]] && grep -qi "ubuntu" "$OS_UBUNTU"; then
     echo -e "${GREEN}apt update && upgrade"
     sudo apt update
     sudo apt upgrade -y
@@ -86,17 +86,17 @@ function _os_clean() {
   echo -e "${BLUE}${BOLD}\nSYSTEM CLEANUP ${RESET}"
   printf "\n"
 
-  if test -f "$FEDORA"; then
+  if test -f "$OS_FEDORA"; then
     echo -e "${GREEN}dnf clean all"
     sudo dnf clean all
   fi
 
-  if test -f "$ARCH"; then
+  if test -f "$OS_ARCH"; then
     echo -e "${GREEN}-Rsn pacman -Qtdq"
     sudo pacman -Rns "$(pacman -Qtdq)"
   fi
 
-  if [[ -f "$UBUNTU" ]] && grep -qi "ubuntu" "$UBUNTU"; then
+  if [[ -f "$OS_UBUNTU" ]] && grep -qi "ubuntu" "$OS_UBUNTU"; then
     echo -e "${GREEN}apt clean autoclean autoremove"
     sudo apt autoclean
     sudo apt clean

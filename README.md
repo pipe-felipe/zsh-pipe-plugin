@@ -33,9 +33,11 @@
 zsh-pipe-plugin.plugin.zsh:source:1: no such file or directory: /colors.zsh
 ```
 
-Put it on .zshrc
+* Add it on .zshrc
+
 This must be on the very top of the file
 `export PIPE_PLUGIN="$HOME/.oh-my-zsh/custom/plugins/zsh-pipe-plugin/"`
+
 
 ### install the plugin
 
