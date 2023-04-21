@@ -27,25 +27,22 @@ function _homebrew_update() {
 
   echo -e "${YELLOW}brew upgrade"
   brew upgrade
-  printf "==================================================\n"
+  printf "\n"
 }
 
 function _update_snap() {
   echo -e "${YELLOW}snap refresh"
   sudo snap refresh
-  printf "==================================================\n"
+  printf "\n"
 }
 
 function _update_flatpak() {
   echo -e "${YELLOW}flatpak update"
   flatpak update
-  printf "==================================================\n"
+  printf "\n"
 }
 
 function _os_update() {
-  echo -e "${BLUE}${BOLD}\nSYSTEM UPDATE ${RESET}"
-  printf "\n"
-
   if test -f "$OS_FEDORA"; then
     echo -e "${GREEN}dnf upgrade"
     sudo dnf upgrade
@@ -61,9 +58,6 @@ function _os_update() {
     sudo apt update
     sudo apt upgrade -y
   fi
-
-  printf "==================================================\n"
-  echo -e "${BOLD}DONE WITH UPDATE"
 }
 
 function _cleanup_homebrew() {
@@ -73,19 +67,16 @@ function _cleanup_homebrew() {
 
   echo -e "${YELLOW}brew autoremove"
   brew autoremove
-  printf "==================================================\n"
+  printf "\n"
 }
 
 function _cleanup_flatpak() {
   echo -e "${YELLOW}flatpak --unused"
   flatpak uninstall --unused
-  printf "==================================================\n"
+  printf "\n"
 }
 
 function _os_clean() {
-  echo -e "${BLUE}${BOLD}\nSYSTEM CLEANUP ${RESET}"
-  printf "\n"
-
   if test -f "$OS_FEDORA"; then
     echo -e "${GREEN}dnf clean all"
     sudo dnf clean all
@@ -102,22 +93,31 @@ function _os_clean() {
     sudo apt clean
     sudo apt autoremove -y
   fi
-
-  printf "==================================================\n"
-  echo -e "${BOLD}DONE WITH CLEANUP"
 }
 
 function update() {
+  echo -e "${BLUE}${BOLD}\nSYSTEM UPDATE ${RESET}"
+  printf "\n"
+
   _os_update
 
   if _is_installed snap; then _update_snap; fi
   if _is_installed brew; then _homebrew_update; fi
   if _is_installed flatpak; then _update_flatpak; fi
+
+  printf "==================================================\n"
+  echo -e "${BOLD}DONE WITH UPDATE"
 }
 
 function clean() {
+  echo -e "${BLUE}${BOLD}\nSYSTEM CLEANUP ${RESET}"
+  printf "\n"
+
   _os_clean
 
   if _is_installed brew; then _cleanup_homebrew; fi
   if _is_installed flatpak; then _cleanup_flatpak; fi
+
+  printf "==================================================\n"
+  echo -e "${BOLD}DONE WITH CLEANUP"
 }
