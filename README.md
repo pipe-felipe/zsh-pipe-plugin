@@ -4,18 +4,19 @@
 
 ## Commands
 
-| Command              | Description                                                            |
-|----------------------|------------------------------------------------------------------------|
-| `dockerps`           | List  container stoped and running and volumes                         |
-| `update`             | Sytem update like ap, dnf, etc... with snaps flatpak and brew as well  |
-| `clean`              | Sytem clanup like apt, dnf, etc... with snaps flatpak and brew as well |
-| `install-zsh-plugin` | Install a custom plugin with 'link' and 'plugin-name'                  |
+| Command              | Description                                                                |
+|----------------------|----------------------------------------------------------------------------|
+| `dockerps`           | List  container stopped and running and volumes                            |
+| `update`             | System update like ap, dnf, etc... with snaps flatpak and brew as well     |
+| `clean`              | System cleanup like apt, dnf, etc... with snaps flatpak and brew as well   |
+| `install-zsh-plugin` | Install a custom plugin with 'link' and 'plugin-name'                      |
 
 ---
 
-| Alias            | Description                          |
-|------------------|--------------------------------------|
-| `docker-cleanup` | Cleanup containers and volumes       |
+| Alias            | Description                    |
+|------------------|--------------------------------|
+| `docker-cleanup` | Cleanup containers and volumes |
+| `flat-builder`   | Flatpak builder alias          |
 
 ---
 
