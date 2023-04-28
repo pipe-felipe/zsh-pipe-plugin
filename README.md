@@ -40,14 +40,14 @@ This must be on the very top of the file
 `export PIPE_PLUGIN="$HOME/.oh-my-zsh/custom/plugins/zsh-pipe-plugin/"`
 
 
-### install the plugin
+### install this plugin
 
 `git clone https://github.com/pipe-felipe/zsh-pipe-plugin ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-pipe-plugin`
 
 ### My favorite plugins
 
-`https://github.com/zsh-users/zsh-autosuggestions`
-`https://github.com/zsh-users/zsh-syntax-highlighting`
+* `https://github.com/zsh-users/zsh-autosuggestions`
+* `https://github.com/zsh-users/zsh-syntax-highlighting`
 
 ### Install any plugin
 
