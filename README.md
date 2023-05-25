@@ -47,7 +47,7 @@ This must be on the very top of the file
 ### My favorite plugins
 
 * `https://github.com/zsh-users/zsh-autosuggestions`
-* `https://github.com/zsh-users/zsh-syntax-highlighting`
+* `'https://github.com/zsh-users/zsh-syntax-highlighting'`
 
 ### Install any plugin
 
