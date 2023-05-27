@@ -1,6 +1,7 @@
 readonly OS_ARCH=/etc/arch-release
 readonly OS_FEDORA=/etc/fedora-release
 readonly OS_UBUNTU=/etc/os-release
+readonly OS_SUSE=/usr/etc/SUSE-brand
 
 # 0 = true | 1 = false
 
@@ -58,6 +59,11 @@ function _os_update() {
     sudo apt update
     sudo apt upgrade -y
   fi
+
+  if test -f "$OS_SUSE"; then
+    echo -e "${GREEN}zypper up"
+    sudo zypper up
+  fi
 }
 
 function _cleanup_homebrew() {
@@ -92,6 +98,11 @@ function _os_clean() {
     sudo apt autoclean
     sudo apt clean
     sudo apt autoremove -y
+  fi
+
+  if test -f "$OS_SUSE"; then
+    echo -e "${GREEN}zypper up"
+    sudo zypper clean
   fi
 }
 
