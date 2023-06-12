@@ -13,10 +13,10 @@
 
 ---
 
-| Alias            | Description                    |
-|------------------|--------------------------------|
-| `docker-cleanup` | Cleanup containers and volumes |
-| `flat-builder`   | Flatpak builder alias          |
+| Alias            | Description                             |
+|------------------|---------------------------------------- |
+| `docker-cleanup` | Cleanup containers, volumes and network |
+| `flat-builder`   | Flatpak builder alias                   |
 
 ---
 
