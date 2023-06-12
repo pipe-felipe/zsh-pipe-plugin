@@ -14,6 +14,11 @@ function dockerps() {
 	docker volume ls
 	echo -e "\n"
 
+	echo -e "${GREEN}Running: docker network ls"
+	echo -e "${BLUE}"
+	docker network ls
+	echo -e "\n"
+
 	echo -e "${GREEN}Running: docker images"
 	echo -e "${BLUE}"
 	docker images
