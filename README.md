@@ -10,6 +10,7 @@
 | `update`             | System update like ap, dnf, etc... with snaps flatpak and brew as well     |
 | `clean`              | System cleanup like apt, dnf, etc... with snaps flatpak and brew as well   |
 | `install-zsh-plugin` | Install a custom plugin with 'link' and 'plugin-name'                      |
+| `install-favorites`  | Install all my favorite plugins - see on My Favorite Plugins - down below  |
 
 ---
 
