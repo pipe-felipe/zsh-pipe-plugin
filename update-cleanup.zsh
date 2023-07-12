@@ -6,14 +6,6 @@ readonly OS_NEON=/etc/os-release
 
 # 0 = true | 1 = false
 
-function _os_match() {
-	if test -f "$1"; then
-		return 0
-	else
-		return 1
-	fi
-}
-
 function _is_installed {
 	if command -v "$1" >/dev/null 2>&1; then
 		return 0
@@ -22,7 +14,7 @@ function _is_installed {
 	fi
 }
 
-function _homebrew_update() {
+function _homebrew_update {
 	echo -e "${YELLOW}brew update"
 	brew update
 	printf "==================================================\n"
@@ -32,19 +24,19 @@ function _homebrew_update() {
 	printf "\n"
 }
 
-function _update_snap() {
+function _update_snap {
 	echo -e "${YELLOW}snap refresh"
 	sudo snap refresh
 	printf "\n"
 }
 
-function _update_flatpak() {
+function _update_flatpak {
 	echo -e "${YELLOW}flatpak update"
 	flatpak update
 	printf "\n"
 }
 
-function _os_update() {
+function _os_update {
 	if test -f "$OS_FEDORA"; then
 		echo -e "${GREEN}dnf upgrade"
 		sudo dnf upgrade
@@ -75,23 +67,22 @@ function _os_update() {
 	fi
 }
 
-function _cleanup_homebrew() {
+function _cleanup_homebrew {
 	echo -e "${YELLOW}brew cleanup"
 	brew cleanup
-	printf "==================================================\n"
 
 	echo -e "${YELLOW}brew autoremove"
 	brew autoremove
 	printf "\n"
 }
 
-function _cleanup_flatpak() {
+function _cleanup_flatpak {
 	echo -e "${YELLOW}flatpak --unused"
 	flatpak uninstall --unused
 	printf "\n"
 }
 
-function _os_clean() {
+function _os_clean {
 	if test -f "$OS_FEDORA"; then
 		echo -e "${GREEN}dnf clean all"
 		sudo dnf clean all
@@ -112,12 +103,12 @@ function _os_clean() {
 	fi
 
 	if test -f "$OS_SUSE"; then
-		echo -e "${GREEN}zypper up"
+		echo -e "${GREEN}zypper clean"
 		sudo zypper clean
 	fi
 }
 
-function update() {
+function update {
 	echo -e "${BLUE}${BOLD}\nSYSTEM UPDATE ${RESET}"
 	printf "\n"
 
@@ -131,7 +122,7 @@ function update() {
 	echo -e "${BOLD}DONE WITH UPDATE"
 }
 
-function clean() {
+function clean {
 	echo -e "${BLUE}${BOLD}\nSYSTEM CLEANUP ${RESET}"
 	printf "\n"
 
