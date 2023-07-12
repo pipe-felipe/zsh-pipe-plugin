@@ -18,10 +18,7 @@ function install-zsh-plugin {
 
 function install-favorites {
 	local names=("zsh-autosuggestions" "zsh-syntax-highlighting")
-	local links=(
-		"https://github.com/zsh-users/zsh-autosuggestions"
-		"https://github.com/zsh-users/zsh-syntax-highlighting"
-	)
+	local links=("https://github.com/zsh-users/zsh-autosuggestions" "https://github.com/zsh-users/zsh-syntax-highlighting")
 
 	for ((i = 0; i <= ${#names[@]}; i++)); do
 		install-zsh-plugin "${links[i]}" "${names[i]}"
