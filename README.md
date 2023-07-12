@@ -14,7 +14,7 @@
 ---
 
 | Alias            | Description                             |
-|------------------|---------------------------------------- |
+|------------------|-----------------------------------------|
 | `docker-cleanup` | Cleanup containers, volumes and network |
 | `flat-builder`   | Flatpak builder alias                   |
 

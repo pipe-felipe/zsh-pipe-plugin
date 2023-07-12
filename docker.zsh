@@ -1,4 +1,4 @@
-function dockerps() {
+function dockerps {
 	echo -e "${GREEN}Running: docker container ls ${RESET}"
 	echo -e "${BLUE}"
 	docker container ls
