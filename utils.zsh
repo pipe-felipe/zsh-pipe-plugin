@@ -23,7 +23,7 @@ function install-favorites {
 		"https://github.com/zsh-users/zsh-syntax-highlighting"
 	)
 
-	for ((i = 1; i <= ${#names[@]}; i++)); do
+	for ((i = 0; i <= ${#names[@]}; i++)); do
 		install-zsh-plugin "${links[i]}" "${names[i]}"
 		omz plugin enable "${names[i]}"
 	done
