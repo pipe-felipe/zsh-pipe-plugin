@@ -23,7 +23,8 @@ function install-favorites {
 	)
 
 	for ((i = 0; i <= ${#names}; i++)); do
-		install-zsh-plugin ${names[i]} ${links[i]}
+		echo "${links[i]}"
+		install-zsh-plugin ${links[i]} ${names[i]}
 		omz plugin enable ${names[i]}
 	done
 }
