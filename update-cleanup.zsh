@@ -36,10 +36,10 @@ function _update_flatpak {
 }
 
 function _update_utils {
-	echo -e "${YELLOW} utils updates\n"
+	echo -e "${YELLOW}utils updates\n"
 
 	if _is_installed pip; then
-		echo -e "${BLUE} pip upgrade\n"
+		echo -e "${BLUE}pip upgrade\n"
 		pip install --upgrade pip
 	fi
 
