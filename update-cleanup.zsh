@@ -36,6 +36,10 @@ function _update_flatpak {
 	printf "\n"
 }
 
+function _update_utils {
+	if _is_installed pip; then pip install --upgrade pip; fi
+}
+
 function _os_update {
 	if test -f "$OS_FEDORA"; then
 		echo -e "${GREEN}dnf upgrade"
