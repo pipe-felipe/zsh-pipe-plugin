@@ -15,17 +15,16 @@ function _is_installed {
 }
 
 function _homebrew_update {
-	echo -e "${YELLOW}brew update"
+	echo -e "${YELLOW}brew update\n"
 	brew update
-	printf "==================================================\n"
 
-	echo -e "${YELLOW}brew upgrade"
+	echo -e "${YELLOW}brew upgrade\n"
 	brew upgrade
 	printf "\n"
 }
 
 function _update_snap {
-	echo -e "${YELLOW}snap refresh"
+	echo -e "${YELLOW}snap refresh \n"
 	sudo snap refresh
 	printf "\n"
 }
@@ -37,69 +36,76 @@ function _update_flatpak {
 }
 
 function _update_utils {
-	if _is_installed pip; then pip install --upgrade pip; fi
+	echo -e "${YELLOW} utils updates\n"
+
+	if _is_installed pip; then
+		echo -e "${BLUE} pip upgrade\n"
+		pip install --upgrade pip
+	fi
+
+	printf "\n"
 }
 
 function _os_update {
 	if test -f "$OS_FEDORA"; then
-		echo -e "${GREEN}dnf upgrade"
+		echo -e "${GREEN}dnf upgrade\n"
 		sudo dnf upgrade
 	fi
 
 	if test -f "$OS_ARCH"; then
-		echo -e "${GREEN}pacman -Syu"
+		echo -e "${GREEN}pacman -Syu\n"
 		sudo pacman -Syu
 	fi
 
 	if [[ -f "$OS_UBUNTU" ]] && grep -qi "ubuntu" "$OS_UBUNTU"; then
 		if ! grep -qi "neon" "$OS_UBUNTU"; then
-			echo -e "${GREEN}apt update && upgrade"
+			echo -e "${GREEN}apt update && upgrade\n"
 			sudo apt update
 			sudo apt upgrade -y
 		fi
 	fi
 
 	if test -f "$OS_SUSE"; then
-		echo -e "${GREEN}zypper up"
+		echo -e "${GREEN}zypper up\n"
 		sudo zypper up
 	fi
 
 	if [[ -f "$OS_NEON" ]] && grep -qi "neon" "$OS_NEON"; then
-		echo -e "${GREEN}pkcon refresh and update"
+		echo -e "${GREEN}pkcon refresh and update\n"
 		sudo pkcon refresh
 		sudo pkcon update
 	fi
 }
 
 function _cleanup_homebrew {
-	echo -e "${YELLOW}brew cleanup"
+	echo -e "${YELLOW}brew cleanup\n"
 	brew cleanup
 
-	echo -e "${YELLOW}brew autoremove"
+	echo -e "${YELLOW}brew autoremove\n"
 	brew autoremove
 	printf "\n"
 }
 
 function _cleanup_flatpak {
-	echo -e "${YELLOW}flatpak --unused"
+	echo -e "${YELLOW}flatpak --unused\n"
 	flatpak uninstall --unused
 	printf "\n"
 }
 
 function _os_clean {
 	if test -f "$OS_FEDORA"; then
-		echo -e "${GREEN}dnf clean all"
+		echo -e "${GREEN}dnf clean all\n"
 		sudo dnf clean all
 	fi
 
 	if test -f "$OS_ARCH"; then
-		echo -e "${GREEN}-Rsn pacman -Qtdq"
+		echo -e "${GREEN}-Rsn pacman -Qtdq\n"
 		sudo pacman -Rns "$(pacman -Qtdq)"
 	fi
 
 	if [[ -f "$OS_UBUNTU" || -f "$OS_NEON" ]]; then
 		if grep -qi "ubuntu" "$OS_UBUNTU" || grep -qi "neon" "$OS_NEON"; then
-			echo -e "${GREEN}apt clean autoclean autoremove"
+			echo -e "${GREEN}apt clean autoclean autoremove\n"
 			sudo apt autoclean
 			sudo apt clean
 			sudo apt autoremove -y
@@ -107,7 +113,7 @@ function _os_clean {
 	fi
 
 	if test -f "$OS_SUSE"; then
-		echo -e "${GREEN}zypper clean"
+		echo -e "${GREEN}zypper clean\n"
 		sudo zypper clean
 	fi
 }
@@ -121,6 +127,8 @@ function update {
 	if _is_installed snap; then _update_snap; fi
 	if _is_installed brew; then _homebrew_update; fi
 	if _is_installed flatpak; then _update_flatpak; fi
+
+	_update_utils
 
 	printf "==================================================\n"
 	echo -e "${BOLD}DONE WITH UPDATE"
