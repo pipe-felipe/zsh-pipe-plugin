@@ -35,17 +35,6 @@ function _update_flatpak {
 	printf "\n"
 }
 
-function _update_utils {
-	echo -e "${YELLOW}utils updates\n"
-
-	if _is_installed pip; then
-		echo -e "${BLUE}pip upgrade\n"
-		pip install --upgrade pip
-	fi
-
-	printf "\n"
-}
-
 function _os_update {
 	if test -f "$OS_FEDORA"; then
 		echo -e "${GREEN}dnf upgrade\n"
@@ -127,8 +116,6 @@ function update {
 	if _is_installed snap; then _update_snap; fi
 	if _is_installed brew; then _homebrew_update; fi
 	if _is_installed flatpak; then _update_flatpak; fi
-
-	_update_utils
 
 	printf "==================================================\n"
 	echo -e "${BOLD}DONE WITH UPDATE"

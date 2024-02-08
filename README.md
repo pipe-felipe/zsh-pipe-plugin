@@ -38,12 +38,16 @@ zsh-pipe-plugin.plugin.zsh:source:1: no such file or directory: /colors.zsh
 * Add it on .zshrc
 
 This must be on the very top of the file
-`export PIPE_PLUGIN="$HOME/.oh-my-zsh/custom/plugins/zsh-pipe-plugin/"`
+```bash
+export PIPE_PLUGIN="$HOME/.oh-my-zsh/custom/plugins/zsh-pipe-plugin/"
+```
 
 
 ### install this plugin
 
-`git clone https://github.com/pipe-felipe/zsh-pipe-plugin ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-pipe-plugin`
+```bash
+git clone https://github.com/pipe-felipe/zsh-pipe-plugin ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-pipe-plugin
+```
 
 ### My favorite plugins
 
@@ -52,4 +56,6 @@ This must be on the very top of the file
 
 ### Install any plugin
 
-`git clone $plugin_link ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/$plugin_name`
+```bash
+git clone $plugin_link ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/$plugin_name
+```
