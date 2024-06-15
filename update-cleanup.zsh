@@ -31,7 +31,7 @@ function _update_snap {
 
 function _update_flatpak {
 	echo -e "${YELLOW}flatpak update"
-	flatpak update
+	flatpak update -y
 	printf "\n"
 }
 
@@ -77,7 +77,7 @@ function _cleanup_homebrew {
 
 function _cleanup_flatpak {
 	echo -e "${YELLOW}flatpak --unused\n"
-	flatpak uninstall --unused
+	flatpak uninstall --unused -y
 	printf "\n"
 }
 

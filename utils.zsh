@@ -24,3 +24,7 @@ function install-favorites {
 		install-zsh-plugin "${links[i]}" "${names[i]}"
 	done
 }
+
+function update-this() {
+	cd "$PIPE_PLUGIN_LOCATION" && ls
+}
