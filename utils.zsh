@@ -24,3 +24,7 @@ function install-favorites {
 		install-zsh-plugin "${links[i]}" "${names[i]}"
 	done
 }
+
+function update-this {
+	git -C "$PIPE_PLUGIN" pull --rebase
+}

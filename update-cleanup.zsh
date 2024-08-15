@@ -3,6 +3,7 @@ readonly OS_FEDORA=/etc/fedora-release
 readonly OS_UBUNTU=/etc/os-release
 readonly OS_SUSE=/usr/etc/SUSE-brand
 readonly OS_NEON=/etc/os-release
+readonly OS_DEBIAN=/etc/os-release
 
 # 0 = true | 1 = false
 
@@ -31,7 +32,7 @@ function _update_snap {
 
 function _update_flatpak {
 	echo -e "${YELLOW}flatpak update"
-	flatpak update
+	flatpak update -y
 	printf "\n"
 }
 
@@ -46,7 +47,8 @@ function _os_update {
 		sudo pacman -Syu
 	fi
 
-	if [[ -f "$OS_UBUNTU" ]] && grep -qi "ubuntu" "$OS_UBUNTU"; then
+	if ([[ -f "$OS_UBUNTU" ]] && grep -qi "ubuntu" "$OS_UBUNTU") ||
+		([[ -f "$OS_DEBIAN" ]] && grep -qi "Debian" "$OS_DEBIAN"); then
 		if ! grep -qi "neon" "$OS_UBUNTU"; then
 			echo -e "${GREEN}apt update && upgrade\n"
 			sudo apt update
@@ -77,7 +79,7 @@ function _cleanup_homebrew {
 
 function _cleanup_flatpak {
 	echo -e "${YELLOW}flatpak --unused\n"
-	flatpak uninstall --unused
+	flatpak uninstall --unused -y
 	printf "\n"
 }
 
@@ -92,8 +94,8 @@ function _os_clean {
 		sudo pacman -Rns "$(pacman -Qtdq)"
 	fi
 
-	if [[ -f "$OS_UBUNTU" || -f "$OS_NEON" ]]; then
-		if grep -qi "ubuntu" "$OS_UBUNTU" || grep -qi "neon" "$OS_NEON"; then
+	if [[ -f "$OS_UBUNTU" || -f "$OS_NEON" || -f "$OS_DEBIAN" ]]; then
+		if grep -qi "ubuntu" "$OS_UBUNTU" || grep -qi "neon" "$OS_NEON" || grep -qi "Debian" "$OS_DEBIAN"; then
 			echo -e "${GREEN}apt clean autoclean autoremove\n"
 			sudo apt autoclean
 			sudo apt clean
