@@ -60,3 +60,17 @@ git clone https://github.com/pipe-felipe/zsh-pipe-plugin ${ZSH_CUSTOM:-~/.oh-my-
 ```bash
 git clone $plugin_link ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/$plugin_name
 ```
+
+---
+
+### How to connect a functions folder to extends this plugin
+
+Sometimes you shall need to extend a functionality, but this functions has some keys or sensitive data that can't be
+updated at some git platform.
+You can do it just adding the follow line at your `.zshrc`
+
+````shell
+export EXTENDED_FUNCTIONS_FOLDER=/path/to/folder/
+````
+
+This path should have a `main.zsh` file that imports all other files that you need

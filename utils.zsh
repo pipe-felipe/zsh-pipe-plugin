@@ -25,6 +25,6 @@ function install-favorites {
 	done
 }
 
-function update-this() {
-	cd "$PIPE_PLUGIN_LOCATION" && ls
+function update-this {
+	cd "$PIPE_PLUGIN" && ls
 }
