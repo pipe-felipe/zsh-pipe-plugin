@@ -26,5 +26,5 @@ function install-favorites {
 }
 
 function update-this {
-	cd "$PIPE_PLUGIN" && ls
+	git -C "$PIPE_PLUGIN" pull --rebase
 }
