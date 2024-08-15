@@ -19,6 +19,7 @@
 |------------------|-----------------------------------------|
 | `docker-cleanup` | Cleanup containers, volumes and network |
 | `flat-builder`   | Flatpak builder alias                   |
+| `zed`            | Zed text editor                         |
 
 ---
 
