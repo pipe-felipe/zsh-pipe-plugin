@@ -4,14 +4,15 @@
 
 ## Commands
 
-| Command              | Description                                                                 |
-|----------------------|-----------------------------------------------------------------------------|
-| `dockerps`           | List  container stopped and running and volumes                             |
-| `update`             | System update like ap, dnf, etc... with snaps flatpak and brew as well      |
-| `clean`              | System cleanup like apt, dnf, etc... with snaps flatpak and brew as well    |
-| `install-zsh-plugin` | Install a custom plugin with 'link' and 'plugin-name'                       |
-| `install-favorites`  | Install all my favorite plugins - see on My Favorite Plugins - down below   |
-| `this-update`        | Update this plugin                                                          |
+| Command                  | Description                                                               |
+|--------------------------|---------------------------------------------------------------------------|
+| `dockerps`               | List  container stopped and running and volumes                           |
+| `update`                 | System update like ap, dnf, etc... with snaps flatpak and brew as well    |
+| `clean`                  | System cleanup like apt, dnf, etc... with snaps flatpak and brew as well  |
+| `install-zsh-plugin`     | Install a custom plugin with 'link' and 'plugin-name'                     |
+| `install-favorites`      | Install all my favorite plugins - see on My Favorite Plugins - down below |
+| `this-update`            | Update this plugin                                                        |
+| `change_alacritty_theme` | Change alacritty theme - light or dark                                    |
 
 ---
 
@@ -75,3 +76,18 @@ export EXTENDED_FUNCTIONS_FOLDER=/path/to/folder/
 ````
 
 This path should have a `main.zsh` file that imports all other files that you need
+
+## Commands
+
+`change_alacritty_theme`: <br>
+
+This command need the `alacritty.yml` file on the path `~/.alacritty.toml`
+and the configuration structure should be like this:
+```toml
+import = [
+#    "~/.config/alacritty/themes/themes/rose-pine-dawn.toml"
+    "~/.config/alacritty/themes/themes/everforest_dark.toml"
+]
+```
+
+The first one should be light and the second one should be dark
