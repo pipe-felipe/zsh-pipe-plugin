@@ -90,8 +90,15 @@ function _os_clean {
 	fi
 
 	if test -f "$OS_ARCH"; then
-		echo -e "${GREEN}-Rsn pacman -Qtdq\n"
-		sudo pacman -Rns "$(pacman -Qtdq)"
+		echo -e "${GREEN}Removing orphaned packages\n"
+		if pacman -Qdtq &>/dev/null; then
+			pacman -Qdtq | while read -r pkg; do
+				echo "Removing orphaned package: $pkg"
+				sudo pacman -Rns --noconfirm "$pkg"
+			done
+		else
+			echo "No orphaned packages to remove"
+		fi
 	fi
 
 	if [[ -f "$OS_UBUNTU" || -f "$OS_NEON" || -f "$OS_DEBIAN" ]]; then
