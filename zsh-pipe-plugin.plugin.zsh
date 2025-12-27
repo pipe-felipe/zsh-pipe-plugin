@@ -8,6 +8,14 @@ source "${PIPE_PLUGIN}/update-cleanup.zsh"
 source "${PIPE_PLUGIN}/paths.zsh"
 source "${PIPE_PLUGIN}/aliases.zsh"
 
+# ============================
+# Linux Distribution Expecific
+
+# Arch Linux
+source "${PIPE_PLUGIN}/archlinux.zsh"
+
+# ============================
+
 if [[ -v EXTENDED_FUNCTIONS_FOLDER ]]; then
 		source "${EXTENDED_FUNCTIONS_FOLDER}/main.zsh"
 fi

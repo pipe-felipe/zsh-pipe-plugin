@@ -13,6 +13,7 @@
 | `install-favorites`      | Install all my favorite plugins - see on My Favorite Plugins - down below |
 | `this-update`            | Update this plugin                                                        |
 | `change_alacritty_theme` | Change alacritty theme - light or dark                                    |
+| `aur-update-all`         | Update all AUR packages - This command is also in the update in archlinux |
 
 ---
 

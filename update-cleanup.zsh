@@ -1,11 +1,7 @@
-readonly OS_ARCH=/etc/arch-release
-readonly OS_FEDORA=/etc/fedora-release
-readonly OS_UBUNTU=/etc/os-release
-readonly OS_SUSE=/usr/etc/SUSE-brand
-readonly OS_NEON=/etc/os-release
-readonly OS_DEBIAN=/etc/os-release
-
-# 0 = true | 1 = false
+# ============================
+# Returns with 0 means true
+# Returns with 1 means false
+# ============================
 
 function _is_installed {
 	if command -v "$1" >/dev/null 2>&1; then
