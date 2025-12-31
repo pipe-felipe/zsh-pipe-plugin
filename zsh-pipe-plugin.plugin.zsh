@@ -3,10 +3,6 @@ source "${PIPE_PLUGIN}/variables.zsh"
 
 source "${PIPE_PLUGIN}/docker.zsh"
 source "${PIPE_PLUGIN}/utils.zsh"
-source "${PIPE_PLUGIN}/update-cleanup.zsh"
-
-source "${PIPE_PLUGIN}/paths.zsh"
-source "${PIPE_PLUGIN}/aliases.zsh"
 
 # ============================
 # Linux Distribution Expecific
@@ -15,6 +11,13 @@ source "${PIPE_PLUGIN}/aliases.zsh"
 source "${PIPE_PLUGIN}/archlinux.zsh"
 
 # ============================
+
+source "${PIPE_PLUGIN}/update-cleanup.zsh"
+
+source "${PIPE_PLUGIN}/paths.zsh"
+source "${PIPE_PLUGIN}/aliases.zsh"
+
+
 
 if [[ -v EXTENDED_FUNCTIONS_FOLDER ]]; then
 		source "${EXTENDED_FUNCTIONS_FOLDER}/main.zsh"

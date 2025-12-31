@@ -41,6 +41,9 @@ function _os_update {
 	if test -f "$OS_ARCH"; then
 		echo -e "${GREEN}pacman -Syu\n"
 		sudo pacman -Syu
+		echo -e "${GREEN}Updating AUR packages\n"
+		sleep 1
+		aur-update-all
 	fi
 
 	if ([[ -f "$OS_UBUNTU" ]] && grep -qi "ubuntu" "$OS_UBUNTU") ||
