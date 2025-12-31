@@ -91,3 +91,17 @@ import = [
 ```
 
 The first one should be light and the second one should be dark
+
+### Archlinux
+
+In archlinux, the `update` command will update all AUR packages as well
+
+### MacOS
+
+In MacOS, the `update` command will update all brew packages
+
+### Linux
+
+In every supported linux distribution (archlinux, ubuntu, neon, debian, suse, fedora), the `update` command will update all packages.
+
+Included snap, flatpak and brew as well if they are installed
