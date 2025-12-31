@@ -27,7 +27,30 @@ function aur-update-all {
 
 	for pkg in "${aur_packages[@]}"; do
 		cd "${download_folder}/${pkg}" || (echo -e "${RED} Failed to update AUR" && return 1)
-		makepkg -sic
+
+		local epoch
+		epoch=$(grep '^\s*epoch\s*=' .SRCINFO | awk '{print $3}')
+
+		local pkgver
+		pkgver=$(grep '^\s*pkgver\s*=' .SRCINFO | awk '{print $3}')
+
+		local pkgrel
+		pkgrel=$(grep '^\s*pkgrel\s*=' .SRCINFO | awk '{print $3}')
+
+		local remote_version="${pkgver}-${pkgrel}"
+		if [[ -n "$epoch" ]]; then
+			remote_version="${epoch}:${remote_version}"
+		fi
+
+		local local_version
+		local_version=$(pacman -Q "$pkg" | awk '{print $2}')
+
+		if [[ $(vercmp "$remote_version" "$local_version") -gt 0 ]]; then
+			echo -e "${GREEN}Updating $pkg from $local_version to $remote_version${RESET}"
+			makepkg -sic
+		else
+			echo -e "${GREEN}$pkg is up to date ($local_version).${RESET}"
+		fi
 	done
 
 	rm -rf "$download_folder"
