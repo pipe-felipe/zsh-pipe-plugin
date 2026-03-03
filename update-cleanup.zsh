@@ -1,11 +1,7 @@
-readonly OS_ARCH=/etc/arch-release
-readonly OS_FEDORA=/etc/fedora-release
-readonly OS_UBUNTU=/etc/os-release
-readonly OS_SUSE=/usr/etc/SUSE-brand
-readonly OS_NEON=/etc/os-release
-readonly OS_DEBIAN=/etc/os-release
-
-# 0 = true | 1 = false
+# ============================
+# Returns with 0 means true
+# Returns with 1 means false
+# ============================
 
 function _is_installed {
 	if command -v "$1" >/dev/null 2>&1; then
@@ -45,6 +41,9 @@ function _os_update {
 	if test -f "$OS_ARCH"; then
 		echo -e "${GREEN}pacman -Syu\n"
 		sudo pacman -Syu
+		echo -e "${GREEN}Updating AUR packages\n"
+		sleep 1
+		aur-update-all
 	fi
 
 	if ([[ -f "$OS_UBUNTU" ]] && grep -qi "ubuntu" "$OS_UBUNTU") ||

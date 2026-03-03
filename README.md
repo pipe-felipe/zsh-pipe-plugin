@@ -12,7 +12,7 @@
 | `install-zsh-plugin`     | Install a custom plugin with 'link' and 'plugin-name'                     |
 | `install-favorites`      | Install all my favorite plugins - see on My Favorite Plugins - down below |
 | `this-update`            | Update this plugin                                                        |
-| `change_alacritty_theme` | Change alacritty theme - light or dark                                    |
+| `aur-update-all`         | Update all AUR packages - This command is also in the update in archlinux |
 
 ---
 
@@ -78,15 +78,16 @@ This path should have a `main.zsh` file that imports all other files that you ne
 
 ## Commands
 
-`change_alacritty_theme`: <br>
+### Archlinux
 
-This command need the `alacritty.yml` file on the path `~/.alacritty.toml`
-and the configuration structure should be like this:
-```toml
-import = [
-#    "~/.config/alacritty/themes/themes/rose-pine-dawn.toml"
-    "~/.config/alacritty/themes/themes/everforest_dark.toml"
-]
-```
+In archlinux, the `update` command will update all AUR packages as well
 
-The first one should be light and the second one should be dark
+### MacOS
+
+In MacOS, the `update` command will update all brew packages
+
+### Linux
+
+In every supported linux distribution (archlinux, ubuntu, neon, debian, suse, fedora), the `update` command will update all packages.
+
+Included snap, flatpak and brew as well if they are installed
