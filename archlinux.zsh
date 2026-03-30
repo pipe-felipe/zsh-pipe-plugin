@@ -21,13 +21,17 @@ function aur-update-all {
 
 	for pkg in "${aur_packages[@]}"; do
 		echo -e "${YELLOW}Package to update: $pkg${RESET}"
-		git clone "https://aur.archlinux.org/${pkg}.git" "$download_folder/$pkg" &
+		git clone --quiet "https://aur.archlinux.org/${pkg}.git" "$download_folder/$pkg" &
 	done
 	wait
 
 	for pkg in "${aur_packages[@]}"; do
 		(
-			cd "${download_folder}/${pkg}" || { echo -e "${RED} Failed to update AUR" && return 1; }
+			if [[ ! -d "${download_folder}/${pkg}" ]]; then
+				echo -e "${RED}Failed to clone $pkg, skipping${RESET}"
+				return 1
+			fi
+			cd "${download_folder}/${pkg}" || return 1
 
 			local epoch
 			epoch=$(grep '^\s*epoch\s*=' .SRCINFO | awk '{print $3}')
