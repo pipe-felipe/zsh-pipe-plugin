@@ -21,9 +21,14 @@ function aur-update-all {
 
 	for pkg in "${aur_packages[@]}"; do
 		echo -e "${YELLOW}Package to update: $pkg${RESET}"
-		git clone --quiet "https://aur.archlinux.org/${pkg}.git" "$download_folder/$pkg" &
+		local attempts=0
+		while (( attempts < 3 )); do
+			git clone --quiet "https://aur.archlinux.org/${pkg}.git" "$download_folder/$pkg" && break
+			(( attempts++ ))
+			echo -e "${RED}Failed to clone $pkg, retrying ($attempts/3)${RESET}"
+			rm -rf "$download_folder/$pkg"
+		done
 	done
-	wait
 
 	for pkg in "${aur_packages[@]}"; do
 		(
