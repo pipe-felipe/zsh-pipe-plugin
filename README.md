@@ -7,6 +7,7 @@
 | Command                  | Description                                                               |
 |--------------------------|---------------------------------------------------------------------------|
 | `dockerps`               | List  container stopped and running and volumes                           |
+| `nvidia-check`           | Full NVIDIA driver health check (hardware, modules, DKMS, Secure Boot)    |
 | `update`                 | System update like ap, dnf, etc... with snaps flatpak and brew as well    |
 | `clean`                  | System cleanup like apt, dnf, etc... with snaps flatpak and brew as well  |
 | `install-zsh-plugin`     | Install a custom plugin with 'link' and 'plugin-name'                     |

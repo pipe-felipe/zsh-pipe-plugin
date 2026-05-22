@@ -2,6 +2,7 @@ source "${PIPE_PLUGIN}/colors.zsh"
 source "${PIPE_PLUGIN}/variables.zsh"
 
 source "${PIPE_PLUGIN}/docker.zsh"
+source "${PIPE_PLUGIN}/nvidia.zsh"
 source "${PIPE_PLUGIN}/utils.zsh"
 
 # ============================
