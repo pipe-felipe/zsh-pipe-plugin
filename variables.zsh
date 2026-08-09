@@ -5,6 +5,7 @@ export readonly OS_UBUNTU=/etc/os-release
 export readonly OS_SUSE=/usr/etc/SUSE-brand
 export readonly OS_NEON=/etc/os-release
 export readonly OS_DEBIAN=/etc/os-release
+export readonly OS_BLUEFIN_IMAGE_INFO=/usr/share/ublue-os/image-info.json
 
 export readonly PIPE_PLUGIN_LOCATION=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-pipe-plugin
 export readonly PIPE_PLUGIN_REPOSITORY=https://github.com/pipe-felipe/zsh-pipe-plugin

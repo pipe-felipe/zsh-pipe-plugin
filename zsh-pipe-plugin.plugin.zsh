@@ -4,16 +4,36 @@ source "${PIPE_PLUGIN}/variables.zsh"
 source "${PIPE_PLUGIN}/docker.zsh"
 source "${PIPE_PLUGIN}/nvidia.zsh"
 source "${PIPE_PLUGIN}/utils.zsh"
+source "${PIPE_PLUGIN}/update-cleanup.zsh"
 
 # ============================
-# Linux Distribution Expecific
+# System Handlers
+
+# Bluefin
+source "${PIPE_PLUGIN}/bluefin.zsh"
+
+# KDE Neon
+source "${PIPE_PLUGIN}/neon.zsh"
+
+# Ubuntu
+source "${PIPE_PLUGIN}/ubuntu.zsh"
+
+# Debian
+source "${PIPE_PLUGIN}/debian.zsh"
+
+# Fedora
+source "${PIPE_PLUGIN}/fedora.zsh"
+
+# openSUSE
+source "${PIPE_PLUGIN}/suse.zsh"
 
 # Arch Linux
 source "${PIPE_PLUGIN}/archlinux.zsh"
 
-# ============================
+# macOS
+source "${PIPE_PLUGIN}/macos.zsh"
 
-source "${PIPE_PLUGIN}/update-cleanup.zsh"
+# ============================
 
 source "${PIPE_PLUGIN}/paths.zsh"
 source "${PIPE_PLUGIN}/aliases.zsh"

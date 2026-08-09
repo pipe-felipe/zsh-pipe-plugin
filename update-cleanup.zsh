@@ -11,6 +11,45 @@ function _is_installed {
 	fi
 }
 
+typeset -ga PIPE_SYSTEM_UPDATE_HANDLERS=()
+typeset -ga PIPE_SYSTEM_CLEAN_HANDLERS=()
+
+function _select_system_update_handler {
+	local handler
+	for handler in "${PIPE_SYSTEM_UPDATE_HANDLERS[@]}"; do
+		if "_${handler}_is_supported"; then
+			print -r -- "$handler"
+			return 0
+		fi
+	done
+
+	return 1
+}
+
+function _select_system_clean_handler {
+	local handler
+	for handler in "${PIPE_SYSTEM_CLEAN_HANDLERS[@]}"; do
+		if "_${handler}_is_supported"; then
+			print -r -- "$handler"
+			return 0
+		fi
+	done
+
+	return 1
+}
+
+function _handler_manages_update_extras {
+	local handler_function="_${1}_manages_update_extras"
+	(( $+functions[$handler_function] )) || return 1
+	"$handler_function"
+}
+
+function _handler_manages_clean_extras {
+	local handler_function="_${1}_manages_clean_extras"
+	(( $+functions[$handler_function] )) || return 1
+	"$handler_function"
+}
+
 function _homebrew_update {
 	echo -e "${YELLOW}brew update\n"
 	brew update
@@ -32,41 +71,6 @@ function _update_flatpak {
 	printf "\n"
 }
 
-function _os_update {
-	if test -f "$OS_FEDORA"; then
-		echo -e "${GREEN}dnf upgrade\n"
-		sudo dnf upgrade
-	fi
-
-	if test -f "$OS_ARCH"; then
-		echo -e "${GREEN}pacman -Syu\n"
-		sudo pacman -Syu
-		echo -e "${GREEN}Updating AUR packages\n"
-		sleep 1
-		aur-update-all
-	fi
-
-	if ([[ -f "$OS_UBUNTU" ]] && grep -qi "ubuntu" "$OS_UBUNTU") ||
-		([[ -f "$OS_DEBIAN" ]] && grep -qi "Debian" "$OS_DEBIAN"); then
-		if ! grep -qi "neon" "$OS_UBUNTU"; then
-			echo -e "${GREEN}apt update && upgrade\n"
-			sudo apt update
-			sudo apt upgrade -y
-		fi
-	fi
-
-	if test -f "$OS_SUSE"; then
-		echo -e "${GREEN}zypper up\n"
-		sudo zypper up
-	fi
-
-	if [[ -f "$OS_NEON" ]] && grep -qi "neon" "$OS_NEON"; then
-		echo -e "${GREEN}pkcon refresh and update\n"
-		sudo pkcon refresh
-		sudo pkcon update
-	fi
-}
-
 function _cleanup_homebrew {
 	echo -e "${YELLOW}brew cleanup\n"
 	brew cleanup
@@ -82,48 +86,21 @@ function _cleanup_flatpak {
 	printf "\n"
 }
 
-function _os_clean {
-	if test -f "$OS_FEDORA"; then
-		echo -e "${GREEN}dnf clean all\n"
-		sudo dnf clean all
-	fi
-
-	if test -f "$OS_ARCH"; then
-		echo -e "${GREEN}Removing orphaned packages\n"
-		if pacman -Qdtq &>/dev/null; then
-			pacman -Qdtq | while read -r pkg; do
-				echo "Removing orphaned package: $pkg"
-				sudo pacman -Rns --noconfirm "$pkg"
-			done
-		else
-			echo "No orphaned packages to remove"
-		fi
-	fi
-
-	if [[ -f "$OS_UBUNTU" || -f "$OS_NEON" || -f "$OS_DEBIAN" ]]; then
-		if grep -qi "ubuntu" "$OS_UBUNTU" || grep -qi "neon" "$OS_NEON" || grep -qi "Debian" "$OS_DEBIAN"; then
-			echo -e "${GREEN}apt clean autoclean autoremove\n"
-			sudo apt autoclean
-			sudo apt clean
-			sudo apt autoremove -y
-		fi
-	fi
-
-	if test -f "$OS_SUSE"; then
-		echo -e "${GREEN}zypper clean\n"
-		sudo zypper clean
-	fi
-}
-
 function update {
 	echo -e "${BLUE}${BOLD}\nSYSTEM UPDATE ${RESET}"
 	printf "\n"
 
-	_os_update
+	local handler
+	handler=$(_select_system_update_handler)
+	if [[ -n "$handler" ]]; then
+		"_${handler}_update"
+	fi
 
-	if _is_installed snap; then _update_snap; fi
-	if _is_installed brew; then _homebrew_update; fi
-	if _is_installed flatpak; then _update_flatpak; fi
+	if [[ -z "$handler" ]] || ! _handler_manages_update_extras "$handler"; then
+		if _is_installed snap; then _update_snap; fi
+		if _is_installed brew; then _homebrew_update; fi
+		if _is_installed flatpak; then _update_flatpak; fi
+	fi
 
 	printf "==================================================\n"
 	echo -e "${BOLD}DONE WITH UPDATE"
@@ -133,10 +110,16 @@ function clean {
 	echo -e "${BLUE}${BOLD}\nSYSTEM CLEANUP ${RESET}"
 	printf "\n"
 
-	_os_clean
+	local handler
+	handler=$(_select_system_clean_handler)
+	if [[ -n "$handler" ]]; then
+		"_${handler}_clean"
+	fi
 
-	if _is_installed brew; then _cleanup_homebrew; fi
-	if _is_installed flatpak; then _cleanup_flatpak; fi
+	if [[ -z "$handler" ]] || ! _handler_manages_clean_extras "$handler"; then
+		if _is_installed brew; then _cleanup_homebrew; fi
+		if _is_installed flatpak; then _cleanup_flatpak; fi
+	fi
 
 	printf "==================================================\n"
 	echo -e "${BOLD}DONE WITH CLEANUP"

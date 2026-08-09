@@ -1,0 +1,61 @@
+#!/bin/sh
+#
+# Generic mock for every package-manager/VCS binary that update(), clean()
+# and aur-update-all() call. Every command name in this directory (sudo,
+# pacman, apt, dnf, ...) is a symlink to this file - $0's basename decides
+# what to fake below.
+#
+# Every invocation is appended to $MOCK_LOG as "<name> <args...>" so
+# smoke-test.zsh can assert on what actually got called. Only pacman/git/
+# vercmp get real fake output, because aur-update-all() is the only caller
+# that parses stdout instead of just checking the exit code. Nothing here
+# touches the network or writes outside $HOME.
+
+name=$(basename "$0")
+log="${MOCK_LOG:-/tmp/mock-calls.log}"
+printf '%s %s\n' "$name" "$*" >>"$log"
+
+case "$name" in
+sudo)
+	# Drop the privilege-escalation wrapper and run the (mocked) command
+	# directly, so real sudo/secure_path never gets involved and this
+	# still works from a non-root user with no password prompt.
+	exec "$@"
+	;;
+pacman)
+	case " $* " in
+	*' -Qdtq '*)
+		# _archlinux_clean: one fake orphan, so the removal branch runs too.
+		echo mock-orphan-pkg
+		;;
+	*' -Qqm '*)
+		# aur-update-all: one fake foreign/AUR package to process.
+		echo mock-aur-pkg
+		;;
+	*' -Q '*)
+		# aur-update-all: pacman -Q <pkg> -> "<pkg> <version>"
+		pkg=$(printf '%s' "$*" | awk '{print $NF}')
+		echo "${pkg} 1.0.0-1"
+		;;
+	esac
+	;;
+git)
+	case " $* " in
+	*' clone '*)
+		# aur-update-all: fake a successful AUR checkout with a minimal
+		# .SRCINFO so the pkgver/pkgrel/epoch parsing has something real
+		# to chew on.
+		dest=$(printf '%s' "$*" | awk '{print $NF}')
+		mkdir -p "$dest"
+		printf 'pkgbase = mock-aur-pkg\n\tpkgver = 2.0.0\n\tpkgrel = 1\n' >"$dest/.SRCINFO"
+		;;
+	esac
+	;;
+vercmp)
+	# Always report the AUR version as newer, to exercise the makepkg
+	# branch of aur-update-all instead of the "already up to date" one.
+	echo 1
+	;;
+esac
+
+exit 0

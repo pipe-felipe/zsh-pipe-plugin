@@ -8,7 +8,7 @@
 |--------------------------|---------------------------------------------------------------------------|
 | `dockerps`               | List  container stopped and running and volumes                           |
 | `nvidia-check`           | Full NVIDIA driver health check (hardware, modules, DKMS, Secure Boot)    |
-| `update`                 | System update like ap, dnf, etc... with snaps flatpak and brew as well    |
+| `update`                 | System update like apt, dnf, etc... with snaps flatpak and brew as well   |
 | `clean`                  | System cleanup like apt, dnf, etc... with snaps flatpak and brew as well  |
 | `install-zsh-plugin`     | Install a custom plugin with 'link' and 'plugin-name'                     |
 | `install-favorites`      | Install all my favorite plugins - see on My Favorite Plugins - down below |
@@ -92,3 +92,7 @@ In MacOS, the `update` command will update all brew packages
 In every supported linux distribution (archlinux, ubuntu, neon, debian, suse, fedora), the `update` command will update all packages.
 
 Included snap, flatpak and brew as well if they are installed
+
+### Bluefin
+
+On Bluefin, `update` runs `ujust update` and `clean` runs `ujust clean-system` for the immutable base system, instead of `dnf`. Snap, Flatpak and Homebrew are still updated/cleaned the same shared way as on every other supported system.
