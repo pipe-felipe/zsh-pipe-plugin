@@ -1,10 +1,34 @@
+function _archlinux_is_supported {
+	[[ -f "$OS_ARCH" ]]
+}
+
 function private-is-arch-linux {
-	if [[ -f "$OS_ARCH" ]]; then
+	if _archlinux_is_supported; then
 		return 0
 	else
 		echo -e "${RED}You are not using Arch Linux${RESET}"
 		echo -e "${YELLOW}This commands will not work${RESET}"
 		return 1
+	fi
+}
+
+function _archlinux_update {
+	echo -e "${GREEN}pacman -Syu\n"
+	sudo pacman -Syu
+	echo -e "${GREEN}Updating AUR packages\n"
+	sleep 1
+	aur-update-all
+}
+
+function _archlinux_clean {
+	echo -e "${GREEN}Removing orphaned packages\n"
+	if pacman -Qdtq &>/dev/null; then
+		pacman -Qdtq | while read -r pkg; do
+			echo "Removing orphaned package: $pkg"
+			sudo pacman -Rns --noconfirm "$pkg"
+		done
+	else
+		echo "No orphaned packages to remove"
 	fi
 }
 
@@ -66,3 +90,6 @@ function aur-update-all {
 
 	rm -rf "$download_folder"
 }
+
+PIPE_SYSTEM_UPDATE_HANDLERS+=(archlinux)
+PIPE_SYSTEM_CLEAN_HANDLERS+=(archlinux)
