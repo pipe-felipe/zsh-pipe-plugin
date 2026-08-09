@@ -17,10 +17,9 @@ All notable changes to this project will be documented in this file.
   system now owns its detection and package-manager commands in its own module.
 - Kept `update-cleanup.zsh` distribution-agnostic. It selects a system handler
   and runs shared Snap, Homebrew, and Flatpak steps when the selected system
-  does not manage them itself.
-- Bluefin now explicitly manages those additional package-manager steps through
-  its supported `ujust` workflows, avoiding incompatible mutable-system
-  commands.
+  does not manage them itself. No handler opts out of this today, including
+  Bluefin: `ujust update`/`ujust clean-system` only cover the immutable base
+  system, so Snap, Homebrew, and Flatpak still go through the shared steps.
 
 ## [1.0.0 - 1.9.9] - Historical baseline
 

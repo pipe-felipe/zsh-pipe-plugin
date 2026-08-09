@@ -13,7 +13,7 @@ manager of that distro without touching your host.
 ## Quick start
 
 ```bash
-# Interactive zsh shell on Fedora, plugin already loaded
+# Interactive zsh shell on Fedora, plugin already loaded, REAL package manager
 teste/run.sh fedora
 
 # Same, for any other supported distro
@@ -24,23 +24,37 @@ teste/run.sh suse
 teste/run.sh neon
 teste/run.sh bluefin
 
-# Non-interactive smoke test (sourcing + handler-selection checks only,
-# no real package manager calls) for one distro
+# Non-interactive test for one distro: sources the plugin, checks handler
+# selection, then actually CALLS update()/clean() against MOCKED
+# package-manager binaries and asserts what got invoked
 teste/run.sh fedora test
 
-# Smoke test every distro and print a pass/fail summary
+# Same, for every distro, with a pass/fail summary (~4s with a warm image cache)
 teste/run.sh all
 ```
 
-Inside the interactive shell, `update`, `clean`, `nvidia-check`, `dockerps`,
-etc. are already available — call them like you would on a real machine.
-`update`/`clean` will hit the real package manager and real network of that
-container; that's the point, and the container is thrown away on exit
-(`--rm`).
+There are two different ways `update`/`clean` get exercised, on purpose:
+
+* **`shell` (interactive)** — the real `pacman`/`apt`/`dnf`/... of that
+  container. Use this to manually verify a command actually works end to
+  end (hits the real network/mirrors of that container). The container is
+  thrown away on exit (`--rm`), so this is safe to run repeatedly.
+* **`test` / `all` (automated)** — `mocks/bin/` is prepended to `PATH`, so
+  every `pacman`/`apt`/`dnf`/`zypper`/`pkcon`/`ujust`/`snap`/`brew`/
+  `flatpak`/`git`/`makepkg`/`vercmp`/`sudo` call is intercepted, logged, and
+  answered with canned output — real enough for `aur-update-all` to parse a
+  fake `.SRCINFO` and decide to "update" a fake AUR package. `update()`/
+  `clean()` run for real through the plugin's own code, so the full call
+  graph is exercised, but nothing touches the network or takes more than
+  milliseconds. `smoke-test.zsh` then asserts, from the logged calls, that
+  e.g. Fedora's `update` actually called `dnf`, and that the shared
+  snap/brew/flatpak steps ran too - `ujust update`/`ujust clean-system`
+  only cover Bluefin's immutable base system, so Bluefin goes through the
+  same shared extras as every other handler (nobody opts out today).
 
 Editing any `.zsh` file in the repo and re-running does **not** require
-rebuilding the image: the repo is bind-mounted, images only install OS
-packages (zsh, sudo, git, ...), never a copy of the plugin.
+rebuilding the image: the repo and `mocks/bin/` are bind-mounted, images
+only install OS packages (zsh, sudo, git, ...), never a copy of the plugin.
 
 ## What each container is
 
@@ -77,4 +91,12 @@ override the check manually inside any shell:
   two-line setup described in the main `README.md` (`export PIPE_PLUGIN=...`
   then `source .../zsh-pipe-plugin.plugin.zsh`), so the interactive shell
   boots exactly like a real install.
-* `smoke-test.zsh` — non-interactive checker used by the `test`/`all` modes.
+* `smoke-test.zsh` — non-interactive checker used by the `test`/`all` modes:
+  sources the plugin, checks handler selection, then runs `update`/`clean`
+  against the mocks and asserts what was called.
+* `mocks/bin/_mock-dispatch` — one script, symlinked under every faked
+  command name (`pacman`, `apt`, `dnf`, `zypper`, `pkcon`, `ujust`, `snap`,
+  `brew`, `flatpak`, `git`, `makepkg`, `vercmp`, `sudo`). Logs every call to
+  `$MOCK_LOG` and, for the handful of commands `aur-update-all` actually
+  parses output from (`pacman -Q*`, `git clone`, `vercmp`), returns
+  plausible fake data instead of just an empty success.

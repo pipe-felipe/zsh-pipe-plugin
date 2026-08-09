@@ -95,4 +95,4 @@ Included snap, flatpak and brew as well if they are installed
 
 ### Bluefin
 
-On Bluefin, `update` runs `ujust update` and `clean` runs `ujust clean-system`. These are Bluefin's supported commands and handle the immutable system without using `dnf`; they also manage the Flatpak and Homebrew work included by Bluefin.
+On Bluefin, `update` runs `ujust update` and `clean` runs `ujust clean-system` for the immutable base system, instead of `dnf`. Snap, Flatpak and Homebrew are still updated/cleaned the same shared way as on every other supported system.

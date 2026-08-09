@@ -13,13 +13,5 @@ function _bluefin_clean {
 	ujust clean-system
 }
 
-function _bluefin_manages_update_extras {
-	return 0
-}
-
-function _bluefin_manages_clean_extras {
-	return 0
-}
-
 PIPE_SYSTEM_UPDATE_HANDLERS+=(bluefin)
 PIPE_SYSTEM_CLEAN_HANDLERS+=(bluefin)
